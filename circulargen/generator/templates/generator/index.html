@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Official Circular Generator</title>
+</head>
+<body>
+    <h1>Generate an Official Circular</h1>
+    <form action="{% url 'generate_circular' %}" method="post">
+        {% csrf_token %}
+        <label for="subject">Subject:</label><br>
+        <input type="text" id="subject" name="subject" required><br><br>
+
+        <label for="audience">Target Audience:</label><br>
+        <input type="text" id="audience" name="audience" required><br><br>
+
+        <label for="urgency">Urgency Level:</label><br>
+        <input type="text" id="urgency" name="urgency" required><br><br>
+
+        <label for="additional_info">Additional Information:</label><br>
+        <textarea id="additional_info" name="additional_info" rows="4" cols="50"></textarea><br><br>
+
+        <input type="submit" value="Generate Circular">
+    </form>
+</body>
+</html>
