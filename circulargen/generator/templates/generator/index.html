@@ -1,25 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Official Circular Generator</title>
+  <meta charset="UTF-8">
+  <title>Official Circular Generator</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Optional: Datepicker CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 </head>
 <body>
-    <h1>Generate an Official Circular</h1>
-    <form action="{% url 'generate_circular' %}" method="post">
-        {% csrf_token %}
-        <label for="subject">Subject:</label><br>
-        <input type="text" id="subject" name="subject" required><br><br>
-
-        <label for="audience">Target Audience:</label><br>
-        <input type="text" id="audience" name="audience" required><br><br>
-
-        <label for="urgency">Urgency Level:</label><br>
-        <input type="text" id="urgency" name="urgency" required><br><br>
-
-        <label for="additional_info">Additional Information:</label><br>
-        <textarea id="additional_info" name="additional_info" rows="4" cols="50"></textarea><br><br>
-
-        <input type="submit" value="Generate Circular">
+  <div class="container mt-5">
+    <h1 class="mb-4 text-center">Generate an Official Circular</h1>
+    <form id="circularForm" action="{% url 'generate_circular' %}" method="post">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="subject">Subject:</label>
+        <input type="text" class="form-control" id="subject" name="subject" required>
+      </div>
+      <div class="form-group">
+        <label for="audience">Target Audience:</label>
+        <input type="text" class="form-control" id="audience" name="audience" required>
+      </div>
+      <div class="form-group">
+        <label for="urgency">Urgency Level:</label>
+        <input type="text" class="form-control" id="urgency" name="urgency" required>
+      </div>
+      <div class="form-group">
+        <label for="additional_info">Additional Information:</label>
+        <textarea class="form-control" id="additional_info" name="additional_info" rows="4"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="date">Current Date:</label>
+        <input type="text" class="form-control datepicker" id="date" name="date" placeholder="Select current date" required>
+      </div>
+      <button type="button" class="btn btn-info" id="previewBtn">Preview Circular</button>
+      <button type="submit" class="btn btn-primary">Generate Circular</button>
     </form>
+  </div>
+
+  <!-- Modal for live preview -->
+  <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="previewModalLabel">Circular Preview</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="previewContent">
+          <!-- Preview content will be dynamically injected here -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close Preview</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery, Bootstrap JS, and Datepicker JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+  <script>
+    // Initialize the datepicker
+    $('.datepicker').datepicker({
+      format: 'dd-mm-yyyy',
+      autoclose: true,
+      todayHighlight: true
+    });
+
+    // Preview circular on button click
+    $('#previewBtn').click(function() {
+      // Collect form values
+      var subject = $('#subject').val();
+      var audience = $('#audience').val();
+      var urgency = $('#urgency').val();
+      var additionalInfo = $('#additional_info').val();
+      var currentDate = $('#date').val();
+
+      // Create a preview content using a template (this could be further customized)
+      var previewHtml = `
+        <h3>${subject}</h3>
+        <p><strong>Target Audience:</strong> ${audience}</p>
+        <p><strong>Urgency Level:</strong> ${urgency}</p>
+        <p><strong>Date:</strong> ${currentDate}</p>
+        <hr>
+        <p>${additionalInfo}</p>
+        <hr>
+        <p><em>[College Logo Placeholder]</em></p>
+        <p><em>[College Name, Dean Academics, Principal Signature Placeholder]</em></p>
+      `;
+      $('#previewContent').html(previewHtml);
+      $('#previewModal').modal('show');
+    });
+  </script>
 </body>
 </html>

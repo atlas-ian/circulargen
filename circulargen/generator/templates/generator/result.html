@@ -4,15 +4,30 @@
     <title>Generated Circular</title>
 </head>
 <body>
-    <h1>Generated Official Circular</h1>
-    <p><strong>Subject:</strong> {{ subject }}</p>
-    <p><strong>Audience:</strong> {{ audience }}</p>
-    <p><strong>Urgency:</strong> {{ urgency }}</p>
-    <p><strong>Additional Information:</strong> {{ additional_info }}</p>
-    <hr>
-    <h2>Circular Content:</h2>
-    <p>{{ circular|linebreaks }}</p>
+    <div style="border: 1px solid #000; padding: 20px; max-width: 800px; margin: auto;">
+        <header style="text-align: center; margin-bottom: 20px;">
+            <pre>{{ college_info }}</pre>
+            <h2>OFFICIAL CIRCULAR</h2>
+        </header>
+        <section>
+            <p><strong>Subject:</strong> {{ subject }}</p>
+            <p><strong>Audience:</strong> {{ audience }}</p>
+            <p><strong>Urgency:</strong> {{ urgency }}</p>
+            <p><strong>Additional Information:</strong> {{ additional_info }}</p>
+        </section>
+        <hr>
+        <section>
+            <h3>Circular Content:</h3>
+            <p>{{ circular|linebreaks }}</p>
+        </section>
+        <footer style="text-align: right; margin-top: 40px;">
+            <!-- The approved signature is already appended in the circular text -->
+        </footer>
+    </div>
     <br>
     <a href="{% url 'index' %}">Generate Another Circular</a>
+    <br>
+    <!-- Placeholder for WhatsApp Message Trigger -->
+    <a href="{% url 'send_whatsapp' %}">Send via WhatsApp</a>
 </body>
 </html>
