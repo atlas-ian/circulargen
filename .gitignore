@@ -1,0 +1,21 @@
+# Byte‑compiled / cache
+__pycache__/
+*.py[cod]
+
+# SQLite database
+db.sqlite3
+
+# Generated PDFs
+generated_pdfs/
+
+# Collected static files
+staticfiles/
+
+# Chrome profile
+chrome_profile/
+
+# VSCode settings
+.vscode/
+
+# Environment
+env/

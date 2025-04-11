@@ -1,0 +1,169 @@
+/* Load Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  background-color: #F1EFEC;
+  font-family: 'Inter', sans-serif;
+  color: #030303;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  color: #123458;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.container {
+  max-width: 750px;
+  margin: 60px auto;
+  padding: 20px;
+}
+
+form {
+  background-color: #D4C9BE;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease-in-out;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: inline-block;
+  color: #030303;
+}
+
+input[type="text"],
+textarea,
+select {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding: 12px 16px;
+  width: 100%;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease, box-shadow 0.2s ease;
+  font-size: 0.95rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #123458;
+  box-shadow: 0 0 0 3px rgba(18, 52, 88, 0.2);
+  outline: none;
+}
+
+button.btn {
+  font-weight: 600;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+button#previewBtn {
+  background-color: #123458;
+  border: none;
+  color: #ffffff;
+}
+
+button#previewBtn:hover {
+  background-color: #030303;
+  transform: scale(1.03);
+}
+
+button.btn-primary {
+  background-color: #030303;
+  border: none;
+  color: #ffffff;
+}
+
+button.btn-primary:hover {
+  background-color: #123458;
+  transform: scale(1.03);
+}
+
+/* Modal Styles */
+.modal-content {
+  background-color: #F1EFEC;
+  border-radius: 16px;
+  padding: 20px;
+  border: none;
+  animation: fadeInUp 0.3s ease;
+}
+
+.modal-header,
+.modal-footer {
+  background-color: #D4C9BE;
+  border: none;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.modal-title {
+  font-weight: 600;
+  color: #123458;
+}
+
+.modal-body {
+  color: #030303;
+  line-height: 1.6;
+}
+
+.modal-footer button {
+  background-color: #123458;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+.modal-footer button:hover {
+  background-color: #030303;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: 1.8rem;
+}
+
+.form-group label {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  color: #6c757d;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  pointer-events: none;
+}
+
+.form-control:focus + label,
+.form-control:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 12px;
+  font-size: 0.75rem;
+  background-color: #D4C9BE;
+  padding: 0 4px;
+  color: #123458;
+  font-weight: 600;
+}
