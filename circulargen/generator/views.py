@@ -60,28 +60,30 @@ def generate_circular(request):
     urgency         = request.POST['urgency']
     agenda          = request.POST['agenda']
     additional_info = request.POST['additional_info']
-    note            = request.POST.get('note', '')
+    # note            = request.POST.get('note', '')
+    venue = request.POST.get('venue')
+    event_datetime = request.POST.get('event_datetime')
     recipient_email = request.POST['recipient_email']
 
     # ---- college header ----
-    college_info = (
-        "Bapuji Institute of Engineering and Technology\n"
-        "Shamnur Road, Davangere-577004, Karnataka, India"
-    )
+    college_info = "Bapuji Institute of Engineering and Technology\nShamnur Road, Davangere-577004, Karnataka, India\n"
 
     # ---- Gemini prompt ----
     prompt = (
-        f"{college_info}\n\n"
-        "------------------------------\n"
-        "OFFICIAL CIRCULAR\n"
-        "------------------------------\n"
+        # f"{college_info}\n\n"
+        # "------------------------------\n"
+        # "OFFICIAL CIRCULAR\n"
+        # "------------------------------\n"
         f"Subject: {subject}\n"
         f"Audience: {audience}\n"
         f"Urgency: {urgency}\n"
         f"Agenda: {agenda}\n"
         f"Details: {additional_info}\n\n"
+        f"Venue: {venue}\n"
+        f"Event date and time: {event_datetime}\n"
         "Please draft the circular content in a formal and clear manner.\n\n"
         "Circular Content:\n"
+
     )
     model    = genai.GenerativeModel('gemini-1.5-pro-latest')
     response = model.generate_content(prompt)
@@ -89,15 +91,17 @@ def generate_circular(request):
 
     # ---- template context ----
     context = {
-        'college_info': college_info,
+        # 'college_info': college_info,
         'subject': subject,
         'audience': audience,
         'urgency': urgency,
         'agenda': agenda,
         'additional_info': additional_info,
+        'venue': venue,
+        'event_datetime': event_datetime,
         'circular': circular,
         'date': date,
-        'note': note,
+        # 'note': note,
         'recipient_email': recipient_email,
         'is_pdf': False,
         'email_sent': None,

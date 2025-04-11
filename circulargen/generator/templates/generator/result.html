@@ -11,172 +11,169 @@
       color: #030303;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
     .container {
       background: #ffffff;
       border-radius: 1rem;
       box-shadow: 0 8px 30px rgba(3, 3, 3, 0.15);
-      padding: 40px;
+      padding: 50px 60px;
       max-width: 850px;
-      margin: 40px auto;
-      color: #030303;
+      margin: 60px auto 20px;
     }
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
-    .header h2 {
+
+    .header img {
+      max-height: 100px;
+      max-width: 100px;
+    }
+
+    .institute-info {
+      text-align: center;
+      flex: 1;
+      padding: 0 20px;
+    }
+
+    .institute-info pre {
       margin: 0;
+      white-space: pre-line;
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .institute-info h2 {
+      margin-top: 10px;
+      margin-bottom: 0;
+      font-size: 1.6rem;
       color: #123458;
       letter-spacing: 1px;
     }
+
     .date {
       text-align: right;
       font-weight: 600;
-      margin-top: 10px;
+      margin-bottom: 20px;
       color: #123458;
     }
-    section p, section h3 {
-      line-height: 1.6;
+
+    section {
+      margin-bottom: 20px;
     }
-    section h3 {
-      color: #123458;
+
+    section p {
+      line-height: 1.8;
+      margin: 10px 0;
+      font-size: 1rem;
     }
-    .note {
-      font-weight: bold;
-      background: #FADA7A33;
-      padding: 10px;
-      border-left: 5px solid #FADA7A;
-      border-radius: 4px;
-      margin-top: 20px;
-    }
-    footer {
-      text-align: right;
-      margin-top: 40px;
-      font-style: italic;
-    }
-    a.button, button.button {
-      display: inline-block;
-      margin: 10px;
-      text-decoration: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 500;
-      color: #fff;
-      background-color: #123458;
-      transition: all 0.3s ease;
-      text-align: center;
-      border: none;
-      cursor: pointer;
-    }
-    a.button:hover, button.button:hover {
-      background-color: #030303;
-    }
-    .alert {
-      padding: 12px 20px;
-      border-radius: 6px;
-      margin-bottom: 24px;
-      font-weight: 500;
-      text-align: center;
-    }
-    .alert-success {
-      background-color: #d1e7dd;
-      color: #0f5132;
-      border: 1px solid #badbcc;
-    }
-    .alert-error {
-      background-color: #f8d7da;
-      color: #842029;
-      border: 1px solid #f5c2c7;
-    }
-    img {
-      border-radius: 8px;
-    }
-    pre {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.95rem;
-      white-space: pre-wrap;
-      color: #030303;
-    }
+
     hr {
       border: none;
       border-top: 1px solid #D4C9BE;
       margin: 24px 0;
     }
+
+    .note {
+      font-weight: 600;
+      background: #FADA7A33;
+      padding: 14px 18px;
+      border-left: 5px solid #FADA7A;
+      border-radius: 6px;
+      font-size: 1rem;
+      margin-top: 24px;
+    }
+
+    footer {
+      text-align: right;
+      margin-top: 40px;
+      font-style: italic;
+      font-size: 0.95rem;
+    }
+
+    /* Button styles */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 20px;
+    }
+    .btn {
+      flex: 0 0 220px;
+      text-align: center;
+      text-decoration: none;
+      padding: 12px 0;
+      border-radius: 8px;
+      font-weight: 500;
+      color: #fff;
+      background-color: #123458;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn:hover {
+      background-color: #030303;
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
-
-    {% if email_sent %}
-      <div class="alert alert-success">
-        ✅ Email sent successfully to all recipients!
-      </div>
-    {% elif email_sent == False %}
-      <div class="alert alert-error">
-        ❌ Failed to send email. Please check the email address or try again later.
-      </div>
-    {% endif %}
-
     <div class="header">
-      <div>
-        <img src="https://img.jagranjosh.com/images/2022/June/362022/BIET.png" alt="Left Logo" width="80">
-      </div>
-      <div>
-        <pre>{{ college_info }}</pre>
+      <img src="https://img.jagranjosh.com/images/2022/June/362022/BIET.png" alt="Left Logo">
+      <div class="institute-info">
+        <pre>Bapuji Educational Association (Regd.)
+Bapuji Institute of Engineering and Technology, Davangere - 577004</pre>
         <h2>OFFICIAL CIRCULAR</h2>
       </div>
-      <div>
-        <img src="https://th.bing.com/th/id/R.af0661acf88c85f0ea512d054ba9da28?rik=7%2fuJV6b4%2ftVerA&riu=http%3a%2f%2fvtu.learnengg.com%2fLE%2fimg%2fVTUlog.png&ehk=d1cjF%2f3%2fE3q6oD3Ek8ctnoriaYCGiR370qc2jxSwEc0%3d&risl=&pid=ImgRaw&r=0" alt="Right Logo" width="80">
-      </div>
+      <img src="https://th.bing.com/th/id/R.af0661acf88c85f0ea512d054ba9da28?rik=7%2fuJV6b4%2ftVerA&riu=http%3a%2f%2fvtu.learnengg.com%2fLE%2fimg%2fVTUlog.png&ehk=d1cjF%2f3%2fE3q6oD3Ek8ctnoriaYCGiR370qc2jxSwEc0%3d&risl=&pid=ImgRaw&r=0" alt="Right Logo">
     </div>
 
     <div class="date">
-      <strong style="color: #123458;">Date:</strong> {{ date }}
+      <strong>Date:</strong> {{ date }}
     </div>
 
     <section>
-      <p><strong>Subject:</strong> {{ subject }}</p>
-      <p><strong>Urgency:</strong> {{ urgency }}</p>
       <p><strong>Agenda:</strong> {{ agenda }}</p>
     </section>
 
     <hr>
 
     <section class="content">
-      <h3>Circular Content:</h3>
       <p>{{ circular|linebreaks }}</p>
     </section>
 
     {% if note %}
-      <hr>
-      <div class="note">
-        <strong>Note:</strong> {{ note }}
-      </div>
+    <div class="note">
+      {{ note }}
+    </div>
     {% endif %}
 
     <footer>
-      <!-- Signature info already part of circular -->
+      <!-- Signature or Issuer Info could go here if needed -->
     </footer>
-  </div> <!-- end of container -->
+  </div>
 
-  <!-- Buttons outside the container and PDF area -->
-{% if not is_pdf %}
-  <div style="text-align: center; margin-top: 30px;">
-    <a href="{% url 'index' %}" class="button">Generate Another Circular</a>
+  {% if not is_pdf %}
+  <div class="btn-group">
+    <!-- Generate Another Circular -->
+    <a href="{% url 'index' %}" class="btn">Generate Another Circular</a>
 
-    <form method="post" action="{% url 'send_email' %}" style="display: inline-block;">
+    <!-- Send via Email -->
+    <form method="post" action="{% url 'send_email' %}" style="margin:0;">
       {% csrf_token %}
       <input type="hidden" name="pdf_filename" value="{{ pdf_filename }}">
       <input type="hidden" name="recipient_email" value="{{ recipient_email }}">
       <input type="hidden" name="subject" value="{{ subject }}">
-      <button type="submit" class="button">Send Circular via Email</button>
+      <button type="submit" class="btn">Send Circular via Email</button>
     </form>
   </div>
-{% endif %}
-
+  {% endif %}
 
 </body>
 </html>

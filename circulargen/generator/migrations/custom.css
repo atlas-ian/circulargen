@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
 body {
-  background-color: #F1EFEC;
+  background-color: #3a0ddb;
   font-family: 'Inter', sans-serif;
   color: #030303;
   margin: 0;
@@ -24,7 +24,7 @@ h1 {
 }
 
 form {
-  background-color: #D4C9BE;
+  background-color: #7ce8c0;
   padding: 40px;
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);

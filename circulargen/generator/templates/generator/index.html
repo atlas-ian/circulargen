@@ -3,198 +3,319 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Official Circular Generator</title>
+  <title>GenCircular • Official Circular Generator</title>
+  <!-- Bootstrap 4 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Datepicker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+  <!-- Inter font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'styles/custom.css' %}">
-  <link rel="icon" href="{% static 'path_to_logo_or_icon.png' %}">
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* === New Teal-Indigo Palette === */
+    :root {
+      --bg: #e0f2f1;            /* light teal */
+      --card: #ffffff;
+      --primary: #5c6bc0;       /* indigo */
+      --primary-hover: #3f51b5;
+      --accent: #00897b;        /* teal */
+      --accent-hover: #00796b;
+      --text: #1e293b;          /* dark slate */
+      --muted: #64748b;         /* slate */
+      --border: #cbd5e1;
+    }
+
+    /* Base */
+    body {
+      margin:0; padding:0;
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+    .container { max-width:720px; margin:60px auto; padding:0 15px; }
+
+    /* Heading */
+    h1 {
+      font-size:2.5rem;
+      font-weight:700;
+      color:var(--primary);
+      margin-bottom:1.5rem;
+      position: relative;
+    }
+    h1 i {
+      color: var(--accent);
+      margin-right:0.5rem;
+      animation: icon-bounce 2s infinite;
+    }
+    @keyframes icon-bounce {
+      0%,100% { transform: translateY(0) }
+      50% { transform: translateY(-5px) }
+    }
+
+    /* Form card */
+    form {
+      background: var(--card);
+      border-radius:1rem;
+      padding:2rem;
+      box-shadow:0 8px 20px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    form:hover { transform: translateY(-3px) }
+
+    /* Floating labels */
+    .form-group { position:relative; margin-bottom:1.6rem; }
+    /* Increase the height of the <select> dropdown */
+.form-group select {
+  height: 3rem; /* Adjust this value as needed */
+  padding: 0.5rem; /* Adjust padding for visual balance */
+}
+
+/* Increase the line height within each <option> (less consistently supported) */
+.form-group select option {
+  line-height: 2; /* Adjust this value as needed */
+  padding: 0.3rem 0; /* Add vertical padding to options */
+}
+    .form-group input[type="text"] {
+      height: 3rem;
+      padding: 0.5rem;
+    }
+    
+    .form-group textarea {
+      height: 5rem;
+      line-height: 1.5;
+      padding: 0.5rem;
+    }
+    .form-control {
+      width:100%; padding:0.75rem 1rem;
+      border:1px solid var(--border); border-radius:0.5rem;
+      background:#fff; font-size:0.95rem;
+      transition:border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,137,123,0.2);
+      outline:none;
+    }
+    label {
+      position:absolute; left:1rem; top:0.75rem;
+      background:var(--card); padding:0 0.25rem;
+      color:var(--muted); font-size:0.9rem;
+      pointer-events:none; transition:transform 0.2s, font-size 0.2s;
+    }
+    .form-control:focus + label,
+    .form-control:not(:placeholder-shown) + label {
+      transform: translateY(-1.6rem);
+      font-size:0.75rem; color:var(--accent);
+    }
+
+    /* Dropdown fix */
+    select.form-control {
+      appearance: none; /* remove default arrow */
+      background-image: url("data:image/svg+xml;charset=UTF-8,<svg xmlns='http://www.w3.org/2000/svg' fill='%2364748B' viewBox='0 0 16 16'><path d='M4 6l4 4 4-4'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    /* Counters */
+    small.form-text { color: var(--muted); }
+
+    /* Buttons */
+    .btn {
+      font-weight:600; border-radius:0.5rem;
+      padding:0.6rem 1.5rem; transition:transform 0.2s;
+    }
+    .btn-primary {
+      background: var(--primary); border:none; color:#fff;
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover); transform: translateY(-2px);
+    }
+    .btn-outline-secondary {
+      border:2px solid var(--accent); color:var(--accent);
+      background:transparent;
+    }
+    .btn-outline-secondary:hover {
+      background:var(--accent); color:#fff; transform: translateY(-2px);
+    }
+
+    /* Modal tweaks */
+    .modal-content { border-radius:1rem; }
+    .modal-header, .modal-footer { border:none; background:var(--bg); }
+    .modal-title { color:var(--primary); font-weight:600; }
+
+    /* Responsive */
+    @media (max-width:576px) {
+      h1 { font-size:2rem; }
+      form { padding:1.5rem; }
+    }
+  </style>
 </head>
 <body>
-  <div class="container mt-5">
-    <h1 class="mb-4 text-center">
-      <i class="fas fa-scroll"></i> GenCircular: AI‑Driven Official Circular Generator
-    </h1>
-    <form id="circularForm" action="{% url 'generate_circular' %}" method="post">
-      {% csrf_token %}
 
+  <div class="container text-center">
+    <h1><i class="fas fa-scroll"></i>GenCircular</h1>
+    <form id="circularForm" action="{% url 'generate_circular' %}" method="post" novalidate>
+      {% csrf_token %}
       <!-- Subject -->
       <div class="form-group">
-        <input type="text" class="form-control" id="subject" name="subject" placeholder=" " required>
-        <label for="subject">Subject</label>
+        <input type="text" id="subject" name="subject" class="form-control" placeholder=" " required>
+        <label for="subject"><i class="fas fa-heading mr-2"></i>Subject</label>
       </div>
-
       <!-- Agenda -->
       <div class="form-group">
-        <input type="text" class="form-control" id="agenda" name="agenda" placeholder=" " required>
-        <label for="agenda">Agenda</label>
+        <input type="text" id="agenda" name="agenda" class="form-control" placeholder=" " required>
+        <label for="agenda"><i class="fas fa-bullseye mr-2"></i>Agenda</label>
       </div>
-
       <!-- Audience -->
       <div class="form-group">
-        <input type="text" class="form-control" id="audience" name="audience" placeholder=" " required>
-        <label for="audience">Target Audience</label>
+        <input type="text" id="audience" name="audience" class="form-control" placeholder=" " required>
+        <label for="audience"><i class="fas fa-users mr-2"></i>Target Audience</label>
       </div>
-
       <!-- Department -->
       <div class="form-group">
-        <select class="form-control" id="department" name="department" required>
+        <select id="department" name="department" class="form-control" required>
           <option value="" disabled selected hidden></option>
-          <option value="CSE">Computer Science and Engineering</option>
-          <option value="ISE">Information Science and Engineering</option>
-          <option value="ECE">Electronics and Communication Engineering</option>
-          <option value="MECH">Mechanical Engineering</option>
-          <option value="CIVIL">Civil Engineering</option>
-          <option value="EEE">Electrical and Electronics Engineering</option>
+          <option>Computer Science and Engineering</option>
+          <option>Information Science and Engineering</option>
+          <option>Electronics and Communication Engineering</option>
+          <option>Mechanical Engineering</option>
+          <option>Civil Engineering</option>
+          <option>Electrical and Electronics Engineering</option>
         </select>
-        <label for="department">Department</label>
+        <label for="department"><i class="fas fa-building mr-2"></i>Department</label>
       </div>
-
       <!-- Urgency -->
       <div class="form-group">
-        <select class="form-control" id="urgency" name="urgency" required>
+        <select id="urgency" name="urgency" class="form-control" required>
           <option value="" disabled selected hidden></option>
-          <option value="Immediate">Immediate</option>
-          <option value="Urgent">Urgent</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-          <option value="Routine">Routine</option>
+          <option>Immediate</option>
+          <option>Urgent</option>
+          <option>Medium</option>
+          <option>Low</option>
+          <option>Routine</option>
         </select>
-        <label for="urgency">Urgency Level</label>
+        <label for="urgency"><i class="fas fa-building mr-2"></i>Urgency Level</label>
       </div>
+
+  
+        <div class="form-group">
+          <input type="text" class="form-control" id="venue" name="venue" placeholder=" " required>
+          <label for="venue"><i class="fas fa-map-marker-alt mr-2"></i>Venue</label>
+        </div>
+      
+        <div class="form-group">
+          <input type="text" class="form-control" id="event_datetime" name="event_datetime" placeholder=" " required>
+          <label for="event_datetime"><i class="fas fa-calendar-alt mr-2"></i>Event Date & Time</label>
+        </div>
+      
 
       <!-- Additional Info -->
       <div class="form-group">
-        <textarea class="form-control" id="additional_info" name="additional_info" rows="4" maxlength="400" placeholder=" "></textarea>
-        <label for="additional_info">Additional Information</label>
-        <small class="text-muted float-right" id="infoCounter">0 / 400</small>
+        <textarea id="additional_info" name="additional_info" rows="4" maxlength="400"
+                  class="form-control" placeholder=" "></textarea>
+        <label for="additional_info"><i class="fas fa-info-circle mr-2"></i>Description</label>
+        <small id="infoCounter" class="form-text text-right">0 / 1000</small>
       </div>
-
-      <!-- Recipient Emails (updated) -->
+      <!-- Recipient Emails -->
       <div class="form-group">
-        <input
-          type="text"
-          class="form-control"
-          id="recipient_email"
-          name="recipient_email"  
-        >
+        <input type="text" id="recipient_email" name="recipient_email"
+               class="form-control" placeholder=" ">
         <label for="recipient_email">Recipient Email(s)</label>
-        <!-- <small class="form-text text-muted">
-          Enter one or more email addresses, separated by commas.
-        </small> -->
-        <small id="emailCount" class="form-text text-muted text-right">0 emails entered</small>
+        <small id="emailCount" class="form-text text-right">0 emails entered</small>
       </div>
-
       <!-- Note -->
-      <div class="form-group">
-        <textarea class="form-control" id="note" name="note" rows="2" placeholder=" "></textarea>
+      <!-- <div class="form-group">
+        <textarea id="note" name="note" rows="2" class="form-control" placeholder=" "></textarea>
         <label for="note">Note (Optional)</label>
-      </div>
-
+      </div> -->
       <!-- Date -->
       <div class="form-group">
-        <input type="text" class="form-control datepicker" id="date" name="date" placeholder=" " required>
-        <label for="date">Current Date</label>
+        <input type="text" id="date" name="date" class="form-control datepicker" placeholder=" " required>
+        <label for="date"><i class="fas fa-calendar-check mr-2"></i>Date of Issue</label>
       </div>
-
       <!-- Buttons -->
-      <button type="button" class="btn btn-outline-secondary" id="previewBtn">
-        <i class="fas fa-eye"></i> Preview Circular
-      </button>
-      <button type="submit" class="btn btn-dark ml-2">
-        <i class="fas fa-magic"></i> Generate Circular
-      </button>
+      <div class="d-flex justify-content-center">
+        <button type="button" id="previewBtn" class="btn btn-outline-secondary mr-3">
+          <i class="fas fa-eye"></i> Preview
+        </button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-magic"></i> Generate
+        </button>
+      </div>
     </form>
   </div>
 
-  <!-- Preview Modal (unchanged) -->
-  <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="previewModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+  <!-- Preview Modal -->
+  <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="previewModalLabel">Circular Preview</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <h5 class="modal-title">Circular Preview</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body" id="previewContent"></div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close Preview</button>
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- JS dependencies -->
+  <!-- JS libs -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
   <script>
-    // Datepicker initialization
-    $('.datepicker').datepicker({
-      format: 'dd-mm-yyyy',
-      autoclose: true,
-      todayHighlight: true
+    // Datepicker
+    $('.datepicker').datepicker({ format:'dd-mm-yyyy', autoclose:true, todayHighlight:true });
+
+    // Counters
+    $('#additional_info').on('input', () => {
+      $('#infoCounter').text(`${$('#additional_info').val().length} / 400`);
+    });
+    $('#recipient_email').on('input', () => {
+      let list = $('#recipient_email').val().split(',')
+                   .map(e=>e.trim()).filter(e=>e);
+      $('#emailCount').text(`${list.length} email${list.length!==1?'s':''} entered`);
     });
 
-    // Character counter for Additional Info
-    $('#additional_info').on('input', function() {
-      const len = $(this).val().length;
-      $('#infoCounter').text(`${len} / 400`);
-    });
-
-    // Preview button handler (your existing logic)
-    $('#previewBtn').click(function() {
-      var subject = $('#subject').val();
-      var agenda = $('#agenda').val();
-      var audience = $('#audience').val();
-      var department = $('#department').val();
-      var urgency = $('#urgency').val();
-      var additionalInfo = $('#additional_info').val();
-      var note = $('#note').val();
-      var currentDate = $('#date').val();
-
-      var previewHtml = `
-        <h3>${subject}</h3>
-        <p><strong>Agenda:</strong> ${agenda}</p>
-        <p><strong>Target Audience:</strong> ${audience}</p>
-        <p><strong>Department:</strong> ${department}</p>
-        <p><strong>Urgency Level:</strong> ${urgency}</p>
-        <p><strong>Date:</strong> ${currentDate}</p>
-        <hr>
-        <p>${additionalInfo}</p>
-        ${ note ? '<hr><p><strong>Note:</strong> ' + note + '</p>' : '' }
-        <hr>
-        <p><em>[Dean Academics, Bapuji Institute of Engineering and Technology]</em></p>
+    // Preview
+    $('#previewBtn').click(() => {
+      const vals = {
+        subject: $('#subject').val(),
+        agenda: $('#agenda').val(),
+        audience: $('#audience').val(),
+        dept: $('#department').val(),
+        urgency: $('#urgency').val(),
+        info: $('#additional_info').val(),
+        <!-- note: $('#note').val(), -->
+        date: $('#date').val()
+      };
+      let html = `
+        <h4>${vals.subject}</h4>
+        <p><strong>Agenda:</strong> ${vals.agenda}</p>
+        <p><strong>Audience:</strong> ${vals.audience}</p>
+        <p><strong>Dept:</strong> ${vals.dept}</p>
+        <p><strong>Urgency:</strong> ${vals.urgency}</p>
+        <p><strong>Date:</strong> ${vals.date}</p>
+        <hr><p>${vals.info}</p>
       `;
-      $('#previewContent').html(previewHtml);
+      $('#previewContent').html(html);
       $('#previewModal').modal('show');
     });
 
-    // Count and validate comma-separated emails
-    $('#recipient_email').on('input', function() {
-      const raw = $(this).val().trim();
-      if (!raw) {
-        $('#emailCount').text('0 emails entered');
-        return;
-      }
-      const list = raw.split(',')
-                      .map(e => e.trim())
-                      .filter(e => e.length > 0);
-      $('#emailCount').text(`${list.length} email${list.length !== 1 ? 's' : ''} entered`);
-    });
-
-    // Form submission validation for emails
-    $('#circularForm').on('submit', function(e) {
-      const raw = $('#recipient_email').val().trim();
-      const emails = raw.split(',').map(e => e.trim()).filter(e => e);
-      const invalid = emails.filter(e => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
-      if (invalid.length) {
+    // Email validation
+    $('#circularForm').on('submit', e => {
+      let raw = $('#recipient_email').val().trim(),
+          arr = raw.split(',').map(e=>e.trim()).filter(e=>e),
+          invalid = arr.filter(e=>!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
+      if(invalid.length){
         e.preventDefault();
-        alert('Invalid email address(es):\n' + invalid.join('\n'));
+        alert('Invalid email(s):\n' + invalid.join('\n'));
       }
     });
   </script>
