@@ -74,6 +74,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]  # For development (optional but useful)
 STATIC_ROOT = BASE_DIR / 'staticfiles'      # For collectstatic to gather all into this dir
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'circulargen', 'static'),
+]
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

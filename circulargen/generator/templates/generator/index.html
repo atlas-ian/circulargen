@@ -12,6 +12,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
   <style>
     /* === New Teal-Indigo Palette === */
     :root {
@@ -31,7 +33,16 @@
       margin:0; padding:0;
       font-family:'Inter',sans-serif;
       background:var(--bg);
+      background: linear-gradient(135deg, #e0f2f1, #5c6bc0);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
       color:var(--text);
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50% }
+      50% { background-position: 100% 50% }
+      100% { background-position: 0% 50% }
     }
     .container { max-width:720px; margin:60px auto; padding:0 15px; }
 
@@ -66,16 +77,16 @@
     /* Floating labels */
     .form-group { position:relative; margin-bottom:1.6rem; }
     /* Increase the height of the <select> dropdown */
-.form-group select {
-  height: 3rem; /* Adjust this value as needed */
-  padding: 0.5rem; /* Adjust padding for visual balance */
-}
+    .form-group select {
+      height: 3rem; /* Adjust this value as needed */
+      padding: 0.5rem; /* Adjust padding for visual balance */
+    }
 
-/* Increase the line height within each <option> (less consistently supported) */
-.form-group select option {
-  line-height: 2; /* Adjust this value as needed */
-  padding: 0.3rem 0; /* Add vertical padding to options */
-}
+    /* Increase the line height within each <option> (less consistently supported) */
+    .form-group select option {
+      line-height: 2; /* Adjust this value as needed */
+      padding: 0.3rem 0; /* Add vertical padding to options */
+    }
     .form-group input[type="text"] {
       height: 3rem;
       padding: 0.5rem;
@@ -131,6 +142,7 @@
     }
     .btn-primary:hover {
       background: var(--primary-hover); transform: translateY(-2px);
+        animation: animate__animated animate__pulse 0.8s;
     }
     .btn-outline-secondary {
       border:2px solid var(--accent); color:var(--accent);
@@ -177,14 +189,19 @@
       <div class="form-group">
         <select id="department" name="department" class="form-control" required>
           <option value="" disabled selected hidden></option>
-          <option>Computer Science and Engineering</option>
-          <option>Information Science and Engineering</option>
-          <option>Electronics and Communication Engineering</option>
-          <option>Mechanical Engineering</option>
-          <option>Civil Engineering</option>
-          <option>Electrical and Electronics Engineering</option>
+          <option value="CSE">CSE</option>
+          <option value="ISE">ISE</option>
+          <option value="ECE">ECE</option>
+          <option value="MECH">MECH</option>
+          <option value="CIVIL">CIVIL</option>
+          <option value="EEE">EEE</option>
         </select>
-        <label for="department"><i class="fas fa-building mr-2"></i>Department</label>
+        <label for="department"><i class="fas fa-building mr-2"></i>Department (Abbreviation)</label>
+      </div>
+      <!-- Optional: HOD Name -->
+      <div class="form-group">
+        <input type="text" id="hod_name" name="hod_name" class="form-control" placeholder=" ">
+        <label for="hod_name"><i class="fas fa-user-tie mr-2"></i>HOD Name (Optional)</label>
       </div>
       <!-- Urgency -->
       <div class="form-group">
@@ -198,25 +215,25 @@
         </select>
         <label for="urgency"><i class="fas fa-building mr-2"></i>Urgency Level</label>
       </div>
-
   
-        <div class="form-group">
-          <input type="text" class="form-control" id="venue" name="venue" placeholder=" " required>
-          <label for="venue"><i class="fas fa-map-marker-alt mr-2"></i>Venue</label>
-        </div>
+      <!-- Venue -->
+      <div class="form-group">
+        <input type="text" class="form-control" id="venue" name="venue" placeholder=" " required>
+        <label for="venue"><i class="fas fa-map-marker-alt mr-2"></i>Venue</label>
+      </div>
       
-        <div class="form-group">
-          <input type="text" class="form-control" id="event_datetime" name="event_datetime" placeholder=" " required>
-          <label for="event_datetime"><i class="fas fa-calendar-alt mr-2"></i>Event Date & Time</label>
-        </div>
-      
+      <!-- Event Date & Time -->
+      <div class="form-group">
+        <input type="text" class="form-control" id="event_datetime" name="event_datetime" placeholder=" " required>
+        <label for="event_datetime"><i class="fas fa-calendar-alt mr-2"></i>Event Date & Time</label>
+      </div>
 
       <!-- Additional Info -->
       <div class="form-group">
         <textarea id="additional_info" name="additional_info" rows="4" maxlength="400"
                   class="form-control" placeholder=" "></textarea>
         <label for="additional_info"><i class="fas fa-info-circle mr-2"></i>Description</label>
-        <small id="infoCounter" class="form-text text-right">0 / 1000</small>
+        <small id="infoCounter" class="form-text text-right">0 / 400</small>
       </div>
       <!-- Recipient Emails -->
       <div class="form-group">
@@ -225,11 +242,6 @@
         <label for="recipient_email">Recipient Email(s)</label>
         <small id="emailCount" class="form-text text-right">0 emails entered</small>
       </div>
-      <!-- Note -->
-      <!-- <div class="form-group">
-        <textarea id="note" name="note" rows="2" class="form-control" placeholder=" "></textarea>
-        <label for="note">Note (Optional)</label>
-      </div> -->
       <!-- Date -->
       <div class="form-group">
         <input type="text" id="date" name="date" class="form-control datepicker" placeholder=" " required>
@@ -292,7 +304,6 @@
         dept: $('#department').val(),
         urgency: $('#urgency').val(),
         info: $('#additional_info').val(),
-        <!-- note: $('#note').val(), -->
         date: $('#date').val()
       };
       let html = `

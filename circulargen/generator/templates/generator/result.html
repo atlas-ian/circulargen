@@ -18,7 +18,8 @@
       box-shadow: 0 8px 30px rgba(3, 3, 3, 0.15);
       padding: 50px 60px;
       max-width: 850px;
-      margin: 60px auto 20px;
+      margin: 60px auto 40px;
+      position: relative;
     }
 
     .header {
@@ -54,6 +55,16 @@
       letter-spacing: 1px;
     }
 
+    .dept-header {
+      font-size: 1.2rem;
+      color: #123458;
+      letter-spacing: 1px;
+      text-align: center;
+      margin: 0.5rem 0 1.5rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: bold;
+    }
+
     .date {
       text-align: right;
       font-weight: 600;
@@ -87,37 +98,57 @@
       margin-top: 24px;
     }
 
-    footer {
-      text-align: right;
-      margin-top: 40px;
-      font-style: italic;
-      font-size: 0.95rem;
-    }
-
-    /* Button styles */
+    /* Button styles OUTSIDE container */
     .btn-group {
       display: flex;
       justify-content: center;
-      margin-top: 30px;
-      gap: 20px;
+      align-items: center;
+      margin: 30px auto 60px;
+      gap: 30px;
+      max-width: 850px;
     }
+
     .btn {
-      flex: 0 0 220px;
+      flex: 1;
       text-align: center;
       text-decoration: none;
-      padding: 12px 0;
+      padding: 14px 0;
       border-radius: 8px;
-      font-weight: 500;
+      font-weight: 600;
       color: #fff;
       background-color: #123458;
       transition: background-color 0.3s ease, transform 0.2s ease;
       border: none;
       cursor: pointer;
       font-size: 1rem;
+      max-width: 300px;
     }
+
     .btn:hover {
       background-color: #030303;
       transform: translateY(-2px);
+    }
+
+    /* Responsive buttons */
+    @media (max-width: 768px) {
+      .btn-group {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .btn {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+    .signature-block {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      font-size: 1rem;
+    }
+    .signature-left, .signature-right {
+      width: 45%;
+      text-align: center;
     }
   </style>
 </head>
@@ -129,6 +160,24 @@
       <div class="institute-info">
         <pre>Bapuji Educational Association (Regd.)
 Bapuji Institute of Engineering and Technology, Davangere - 577004</pre>
+        <h5 class="dept-header">
+          {% if department == "CSE" %}
+            Computer Science and Engineering
+          {% elif department == "ISE" %}
+            Information Science and Engineering
+          {% elif department == "ECE" %}
+            Electronics and Communication Engineering
+          {% elif department == "MECH" %}
+            Mechanical Engineering
+          {% elif department == "CIVIL" %}
+            Civil Engineering
+          {% elif department == "EEE" %}
+            Electrical and Electronics Engineering
+          {% else %}
+            {{ department }}
+          {% endif %}
+        </h5>
+
         <h2>OFFICIAL CIRCULAR</h2>
       </div>
       <img src="https://th.bing.com/th/id/R.af0661acf88c85f0ea512d054ba9da28?rik=7%2fuJV6b4%2ftVerA&riu=http%3a%2f%2fvtu.learnengg.com%2fLE%2fimg%2fVTUlog.png&ehk=d1cjF%2f3%2fE3q6oD3Ek8ctnoriaYCGiR370qc2jxSwEc0%3d&risl=&pid=ImgRaw&r=0" alt="Right Logo">
@@ -154,23 +203,32 @@ Bapuji Institute of Engineering and Technology, Davangere - 577004</pre>
     </div>
     {% endif %}
 
-    <footer>
-      <!-- Signature or Issuer Info could go here if needed -->
-    </footer>
-  </div>
+    <!-- In result.html, inside the container after the circular: -->
+    <div class="signature-block">
+      <div class="signature-left">
+        <strong>{{ hod_name }}</strong><br>
+        Head, Dept. of {{ department }}
+      </div>
+      <div class="signature-right">
+        <strong>Dr. H B Aravind</strong><br>
+        Principal
+      </div>
+    </div>
+    
+  </div> <!-- End of .container -->
 
   {% if not is_pdf %}
   <div class="btn-group">
     <!-- Generate Another Circular -->
     <a href="{% url 'index' %}" class="btn">Generate Another Circular</a>
 
-    <!-- Send via Email -->
-    <form method="post" action="{% url 'send_email' %}" style="margin:0;">
+    <!-- Send Circular via Email -->
+    <form method="post" action="{% url 'send_email' %}" style="margin: 0; flex: 1;">
       {% csrf_token %}
       <input type="hidden" name="pdf_filename" value="{{ pdf_filename }}">
       <input type="hidden" name="recipient_email" value="{{ recipient_email }}">
       <input type="hidden" name="subject" value="{{ subject }}">
-      <button type="submit" class="btn">Send Circular via Email</button>
+      <button type="submit" class="btn" style="padding-left: 40px; padding-right: 40px;">Send Circular via Email</button>
     </form>
   </div>
   {% endif %}
