@@ -37,30 +37,33 @@
    git clone https://github.com/yourusername/GenCircular.git
    cd GenCircular
    # Linux / macOS
-python -m venv venv
-source venv/bin/activate
+2. **Create & activate virtual environment**
+    ```bash
+    python -m venv venv
+    source venv/bin/activate
+3. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   
+4. **Configure environment variables**
+   ```bash
+   GOOGLE_API_KEY=your_gemini_api_key
+   DJANGO_SECRET_KEY=your_django_secret_key
+   EMAIL_HOST_USER=your_smtp_username
+   EMAIL_HOST_PASSWORD=your_smtp_password
 
-# Windows
-python -m venv venv
-venv\Scripts\activate.bat
-
-pip install -r requirements.txt
-GOOGLE_API_KEY=your_gemini_api_key
-DJANGO_SECRET_KEY=your_django_secret_key
-EMAIL_HOST_USER=your_smtp_username
-EMAIL_HOST_PASSWORD=your_smtp_password
-
-
-python manage.py migrate
-python manage.py createsuperuser
-
-
-python manage.py collectstatic
-
-
-python manage.py runserver
-
-Access the app
+5. **Apply database migrations**
+   ```bash
+   python manage.py migrate
+6. **Create a superuser**
+   ```bash
+   python manage.py createsuperuser
+7. **Create a superuser**
+   ```bash
+   python manage.py collectstatic
+8. **Start the development server**
+   ```bash
+   python manage.py runserver
 
 Admin: http://127.0.0.1:8000/admin/
 
