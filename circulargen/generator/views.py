@@ -13,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail       import EmailMessage
 import google.generativeai as genai
 from weasyprint import HTML
+import uuid
+
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. HOD Mapping by Department Code
@@ -118,6 +120,10 @@ def generate_circular(request):
     model    = genai.GenerativeModel('gemini-1.5-pro-latest')
     response = model.generate_content(prompt)
     circular = re.sub(r'\*\*(.*?)\*\*', r'\1', response.text)
+
+
+# --- 4.1.1 Generate unique Circular ID ---
+    circular_id = uuid.uuid4().hex[:8].upper()  # e.g. 'A1B2C3D4'
 
     # --- 4.4 Prepare template context ---
     context = {
