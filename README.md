@@ -36,3 +36,34 @@
    ```bash
    git clone https://github.com/yourusername/GenCircular.git
    cd GenCircular
+   # Linux / macOS
+python -m venv venv
+source venv/bin/activate
+
+# Windows
+python -m venv venv
+venv\Scripts\activate.bat
+
+pip install -r requirements.txt
+GOOGLE_API_KEY=your_gemini_api_key
+DJANGO_SECRET_KEY=your_django_secret_key
+EMAIL_HOST_USER=your_smtp_username
+EMAIL_HOST_PASSWORD=your_smtp_password
+
+
+python manage.py migrate
+python manage.py createsuperuser
+
+
+python manage.py collectstatic
+
+
+python manage.py runserver
+
+Access the app
+
+Admin: http://127.0.0.1:8000/admin/
+
+Generator: http://127.0.0.1:8000/
+
+
