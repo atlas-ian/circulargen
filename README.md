@@ -36,7 +36,6 @@
    ```bash
    git clone https://github.com/yourusername/GenCircular.git
    cd GenCircular
-   # Linux / macOS
 2. **Create & activate virtual environment**
     ```bash
     python -m venv venv
@@ -58,7 +57,7 @@
 6. **Create a superuser**
    ```bash
    python manage.py createsuperuser
-7. **Create a superuser**
+7. **Collect static files**
    ```bash
    python manage.py collectstatic
 8. **Start the development server**
