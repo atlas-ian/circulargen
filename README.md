@@ -64,9 +64,9 @@
 8. **Start the development server**
    ```bash
    python manage.py runserver
-
-Admin: http://127.0.0.1:8000/admin/
-
-Generator: http://127.0.0.1:8000/
-
+9. **Access the app**
+   ```bash
+   Admin: http://127.0.0.1:8000/admin/
+   Generator: http://127.0.0.1:8000/
+   
 
