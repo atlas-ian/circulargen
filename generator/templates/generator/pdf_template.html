@@ -5,144 +5,108 @@
   <meta charset="UTF-8">
   <title>Generated Circular</title>
   <style>
+    /* Page & print reset */
     @page { size: A4 portrait; margin: 12mm; }
-    @media print {
-      .btn-group { display: none; }
-      body { margin: 0; }
-    }
+    @media print { .btn-group { display: none } body { margin: 0 } }
 
+    /* Base */
     body {
       margin: 0;
-      background: #f0f0f0;
+      background: #ffffff;
       font-family: 'Segoe UI', Tahoma, sans-serif;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 200mm;         /* give a little breathing room horizontally */
-      margin: 10mm auto;        /* adds 10 mm of space above AND below your card */
-      padding: 8mm;             /* tighten up the padding if you like */
-      background: #fff;
-      border-radius: 4mm;       /* soft, rounded corners like your browser view */
-      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
-      box-sizing: border-box;
       color: #000;
       font-size: 9pt;
     }
+    .container {
+      max-width: 200mm;
+      margin: 10mm auto;
+      padding: 8mm;
+      background: #fff;
+      border-radius: 4mm;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
 
-
+    /* Header grid */
     .biet-header {
       display: grid;
-      grid-template-columns: 18mm auto 18mm;
+      grid-template-columns: 18mm auto 30mm;
       align-items: center;
       gap: 4mm;
       margin-bottom: 8mm;
-      margin-left: -10mm;
-
     }
-
-    .biet-header .logos-left,
-    .biet-header .logos-right {
-      max-height: 18mm;
-      width: auto;
-      display: block;
-    }
-
-    .biet-header .logos-left {
-      justify-self: start;
-    }
-
-    .biet-header .logos-right {
-      justify-self: end;
-    }
-
-    .biet-header .logos-left img,
-    .biet-header .logos-right img {
+    .biet-header img {
       max-height: 20mm;
       width: auto;
       display: block;
     }
-
-
-
-    .biet-header .header-center {
+    .header-center {
       text-align: center;
       line-height: 1.1;
       white-space: nowrap;
     }
+    .line-small   { font-size: 6pt;  margin-bottom: 0.5mm }
+    .title-main  { font-size: 11pt; font-weight: bold; letter-spacing: 0.3pt; margin-bottom: 0.5mm }
+    .dept-name   { font-size: 10pt; font-weight: bold; margin-bottom: 1mm }
+    .line-medium { font-size: 7pt;  font-weight: bold; margin-bottom: 0.5mm }
+    .approvals   { font-size: 6pt;  margin-bottom: 0.5mm }
+    .line-italic { font-size: 7pt;  font-weight: bold; margin-bottom: 1mm }
+    .contact     { font-size: 7pt }
 
-    .biet-header .line-small { font-size: 6pt; margin-bottom: 0.5mm; }
-    .biet-header .title-main { font-size: 11pt; font-weight: bold; letter-spacing: 0.3pt; margin-bottom: 0.5mm; }
-    .biet-header .line-medium { font-size: 7pt; font-weight: bold; margin-bottom: 0.5mm; }
-    .biet-header .approvals { font-size: 6pt; margin-bottom: 0.5mm; }
-    .biet-header .line-italic { font-size: 7pt; font-weight: bold; margin-bottom: 1mm; }
-    .biet-header .contact { font-size: 7pt; }
-    .biet-header .divider, .sub-divider {
-      grid-column: 1 / span 3;
-      border: none;
-      border-top: 1px solid #000;
-    }
-    .sub-divider { margin: 1mm 0; }
-    .divider { margin-top: 2mm; }
-
-    .official-title {
-      text-align: center;
-      font-size: 12pt;       /* adjust size as needed */
-      font-weight: bold;
-      margin: 4mm 0 2mm;     /* space above/below */
-      letter-spacing: 1px;
-    }
-
-    .info-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6mm;
-      font-size: 9pt;
-    }
-
-    .info-line .agenda {
-      font-weight: bold;
-    }
-
-    .info-line .date {
-      font-size: 9pt;
-      font-weight: bold;
-    }
-
-    section p {
-      line-height: 1.4;
-      margin: 2mm 0;
-      font-size: 9pt;
-    }
-
+    /* Dividers */
+    .sub-divider { margin: 1mm 0; border: none; border-top: 1px solid #000 }
     hr.content-divider {
       border: none;
       border-top: 1px solid #D4C9BE;
       margin: 5mm 0;
     }
 
+    /* Title */
+    .official-title {
+      text-align: center;
+      font-size: 12pt;
+      font-weight: bold;
+      margin: 4mm 0 2mm;
+      letter-spacing: 1px;
+    }
+
+    /* Info line */
+    .info-line {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6mm;
+      font-weight: bold;
+    }
+
+    /* Body */
+    section p {
+      line-height: 1.4;
+      margin: 2mm 0;
+    }
     .note {
       font-weight: bold;
       background: #FADA7A33;
       padding: 3mm 4mm;
       border-left: 3px solid #FADA7A;
-      font-size: 9pt;
       margin-top: 4mm;
     }
 
-    .signature-block.three-signatures {
+    /* Signatures */
+    .signature-block {
       display: flex;
       justify-content: space-between;
       margin-top: 20mm;
-      font-size: 9pt;
     }
-
     .signature-col {
       width: 32%;
       text-align: center;
     }
-
+    .signature-img {
+      display: block;
+      margin: 0 auto 4mm;
+      max-height: 15mm;
+      width: auto;
+    }
     .signature-col strong {
       display: block;
       margin-bottom: 2mm;
@@ -152,104 +116,122 @@
     .btn-group {
       display: flex;
       justify-content: center;
-      align-items: center;
-      margin: 10mm auto;
-      gap: 12mm;
-      max-width: 210mm;
+      gap: 20px;               /* space between buttons */
+      margin: 20px auto 40px;  /* 20px above, 40px below, centered horizontally */
+      max-width: 200mm;        /* match your container width */
+      padding: 0 8mm;          /* horizontal padding so buttons don’t bump into page edges */
+      box-sizing: border-box;
     }
 
+    /* Buttons themselves */
     .btn {
       flex: 1;
-      text-align: center;
-      text-decoration: none;
-      padding: 6mm 0;
-      border-radius: 4mm;
-      font-weight: bold;
-      color: #fff;
-      background-color: #123458;
+      max-width: 80mm;         /* limit how wide each button can grow */
+      padding: 10px 0;         /* comfortable click/tap height */
       border: none;
-      cursor: pointer;
+      border-radius: 8px;
+      font-family: 'Segoe UI', sans-serif;
       font-size: 10pt;
-      max-width: 80mm;
+      font-weight: 600;
+      text-transform: none;
+      color: #ffffff;
+      background-color: #123458;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+    .btn-wide {
+      min-width: 180px;       /* adjust until you have enough side-space */
     }
 
+
     .btn:hover {
-      background-color: #030303;
+      background-color: #0d1f3d;
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
 
   <div class="container">
-    <div class="biet-header">
-      <div class="logos-left">
-        <img src="https://bapujidvg.in/logo/logo.jpg" alt="BIET Seal">
-      </div>
 
+    <!-- Header -->
+    <div class="biet-header">
+      <div><img src="https://bapujidvg.in/logo/logo.jpg" alt="BIET Seal"></div>
       <div class="header-center">
         <div class="line-small">Bapuji Educational Association®</div>
         <div class="title-main">BAPUJI INSTITUTE OF ENGINEERING AND TECHNOLOGY</div>
+        <div class="dept-name">Department of {{ dept_full }}</div>
         <div class="line-medium">Post Box No.: 325, Davangere – 577004, Karnataka, India</div>
         <div class="line-medium">An Autonomous Institute Affiliated to Visvesvaraya Technological University, Belagavi, Karnataka</div>
         <hr class="sub-divider">
         <div class="approvals">Approved by AICTE, New Delhi | Accredited by NAAC with ‘A’ grade and NBA (UG Programmes) | Recognized by UGC, New Delhi under 2(f) and 12(B)</div>
         <div class="line-italic">ಬಾಪುಜಿ ಇಂಜಿನಿಯರಿಂಗ್ ಮತ್ತು ತಾಂತ್ರಿಕ ಮಹಾವಿದ್ಯಾಲಯ, ದಾವಣಗೆರೆ – 577004.</div>
         <hr class="sub-divider">
-        <div class="contact">📞 Office: 08192-221461 &nbsp;|&nbsp; 🌐 www.bietdvg.edu &nbsp;|&nbsp; ✉️ principal@bietdvg.edu</div>
+        <div class="contact">📞 Office: 08192-221461 | 🌐 www.bietdvg.edu | ✉️ principal@bietdvg.edu</div>
       </div>
-
-      <div class="logos-right">
-        <img src="https://img.jagranjosh.com/images/2022/June/362022/BIET.png" alt="Right Logo">
-      </div>
-
-      <!-- <hr class="divider"> -->
+      <div><img src="https://img.jagranjosh.com/images/2022/June/362022/BIET.png" alt="Right Logo"></div>
     </div>
 
+    <!-- Content Divider -->
     <hr class="content-divider">
 
+    <!-- Official title + info -->
     <h2 class="official-title">OFFICIAL CIRCULAR</h2><br>
-
-    
     <div class="info-line">
-      <span class="agenda">Agenda: {{ agenda }}</span>
-      <span class="date">Date: {{ date }}</span>
+      <span>Agenda: {{ agenda }}</span>
+      <span>Date: {{ date }}</span>
     </div>
 
+    <!-- Body -->
     <section class="content">
       <p>{{ circular|linebreaks }}</p>
     </section>
-
     {% if note %}
       <div class="note">{{ note }}</div>
     {% endif %}
 
-    <div class="signature-block three-signatures">
+    <!-- Signatures -->
+    <div class="signature-block">
+      <!-- HOD -->
       <div class="signature-col">
+        <img src="{{ hod_signature_url }}" alt="{{ hod_name }} Signature" class="signature-img">
         <strong>{{ hod_name }}</strong>
         Head, Dept. of {{ department }}
       </div>
+
+      <!-- Director -->
       <div class="signature-col">
-        <strong>Dr. Vrushabendrappa</strong>
+        <img src="https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/director-sign.png?raw=true"
+             alt="Director Signature" class="signature-img">
+        <strong>Prof. Y. Vrushabhendrappa</strong>
         Director
       </div>
+
+      <!-- Principal -->
       <div class="signature-col">
+        <img src="https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/principal-sign.png?raw=true"
+             alt="Principal Signature" class="signature-img">
         <strong>Dr. H B Aravind</strong>
         Principal
       </div>
     </div>
+
   </div>
 
   {% if not is_pdf %}
     <div class="btn-group">
       <a href="{% url 'index' %}" class="btn">Generate Another Circular</a>
-      <form method="post" action="{% url 'send_email' %}" style="flex:1;">
+      <form method="post" action="{% url 'send_email' %}">
         {% csrf_token %}
         <input type="hidden" name="pdf_filename" value="{{ pdf_filename }}">
         <input type="hidden" name="recipient_email" value="{{ recipient_email }}">
         <input type="hidden" name="subject" value="{{ subject }}">
-        <button type="submit" class="btn">Send Circular via Email</button>
+        <button type="submit" class="btn btn-wide">Send Circular via Email</button>
       </form>
     </div>
   {% endif %}
+
 </body>
 </html>

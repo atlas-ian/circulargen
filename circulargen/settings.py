@@ -92,7 +92,8 @@ USE_TZ        = True
 # 7. Static files
 # ─────────────────────────────────────────────────────────────────────────────
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [ BASE_DIR / "staticfiles" ]
+STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATIC_ROOT = BASE_DIR / 'staticfiles_root'
 
 
 # ─────────────────────────────────────────────────────────────────────────────

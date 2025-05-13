@@ -2,6 +2,7 @@
 
 import os
 import re
+import uuid
 
 from django.shortcuts       import render, redirect
 from django.http            import HttpResponse
@@ -11,10 +12,9 @@ from django.contrib         import messages
 from django.contrib.auth    import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail       import EmailMessage
+
 import google.generativeai as genai
 from weasyprint import HTML
-import uuid
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. HOD Mapping by Department Code
@@ -29,19 +29,50 @@ HOD_BY_DEPT = {
 }
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 2. Configure Google Gemini AI (if API key present)
+# 1b. Department full-name mapping
+# ─────────────────────────────────────────────────────────────────────────────
+DEPT_FULL_BY_CODE = {
+    'CSE':   'Computer Science and Engineering',
+    'MECH':  'Mechanical Engineering',
+    'CIVIL': 'Civil Engineering',
+    'EEE':   'Electrical & Electronics Engineering',
+    'ECE':   'Electronics & Communication Engineering',
+    'ISE':   'Information Science & Engineering',
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. Signature URLs on GitHub (raw)
+# ─────────────────────────────────────────────────────────────────────────────
+GITHUB_RAW_BASE = (
+    "https://raw.githubusercontent.com/adarshaadi06/circulargen"
+    "/main/generator/static/generator/signatures"
+)
+
+HOD_SIG_URLS = {
+    'CSE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/hod-sign.png?raw=true",
+    'MECH':  "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/MECH-sign.png?raw=true",
+    'CIVIL': "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/CIVIL-sign.png?raw=true",
+    'EEE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/EEE-sign.png?raw=true",
+    'ECE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/ECE-sign.png?raw=true",
+    'ISE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/ISE-sign.png?raw=true",
+}
+
+DIRECTOR_SIG_URL   = f"{GITHUB_RAW_BASE}/director-sign.png?raw=true"
+PRINCIPAL_SIG_URL  = f"{GITHUB_RAW_BASE}/principal-sign.png?raw=true"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. Configure Google Gemini AI (if API key present)
 # ─────────────────────────────────────────────────────────────────────────────
 api_key = getattr(settings, 'GOOGLE_API_KEY', os.environ.get("GOOGLE_API_KEY"))
 if api_key:
     genai.configure(api_key=api_key)
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 3. Authentication Views
+# 4. Authentication Views
 # ─────────────────────────────────────────────────────────────────────────────
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('index')
-
     if request.method == 'POST':
         user = authenticate(
             request,
@@ -51,9 +82,7 @@ def login_view(request):
         if user:
             login(request, user)
             return redirect(request.GET.get('next', 'index'))
-
         messages.error(request, "Invalid credentials")
-
     return render(request, 'generator/login.html')
 
 
@@ -64,30 +93,19 @@ def logout_view(request):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# 4. Main Application Views
+# 5. Main Application Views
 # ─────────────────────────────────────────────────────────────────────────────
 @login_required
 def index(request):
-    """
-    Renders the form page for generating a circular.
-    """
     return render(request, 'generator/index.html')
 
 
 @login_required
 def generate_circular(request):
-    """
-    Handles form submission:
-      1. Collects form data.
-      2. Builds and sends prompt to Gemini.
-      3. Receives AI-generated circular content.
-      4. Renders and saves PDF via WeasyPrint.
-      5. Returns the result page with PDF download/send options.
-    """
     if request.method != 'POST':
         return HttpResponse("Invalid request method", status=400)
 
-    # --- 4.1 Collect form inputs ---
+    # --- 5.1 Collect form inputs ---
     subject         = request.POST['subject']
     date            = request.POST['date']
     audience        = request.POST['audience']
@@ -99,10 +117,12 @@ def generate_circular(request):
     department      = request.POST['department']
     recipient_email = request.POST['recipient_email']
 
-    # --- 4.2 Determine HOD name from mapping ---
-    hod_name = HOD_BY_DEPT.get(department, '')
+    # --- 5.2 HOD name, dept full-name & signature URL ---
+    hod_name           = HOD_BY_DEPT.get(department, 'Head of Department')
+    dept_full          = DEPT_FULL_BY_CODE.get(department, department)
+    hod_signature_url  = HOD_SIG_URLS.get(department, '')
 
-    # --- 4.3 Build Gemini prompt ---
+    # --- 5.3 Build AI prompt & generate circular text ---
     prompt = (
         "Write a formal and concise college circular in one paragraph, "
         "no bullets in body. Keep Subject on its own line before details. "
@@ -117,77 +137,76 @@ def generate_circular(request):
         f"* Time: {event_datetime.split(',')[-1].strip() if ',' in event_datetime else ''}\n\n"
         "Circular Content:\n"
     )
-    # model    = genai.GenerativeModel('gemini-1.5-pro-latest')
-    # response = model.generate_content(prompt)
-    # circular = re.sub(r'\*\*(.*?)\*\*', r'\1', response.text)
+
     if api_key == 'DEMO-API-KEY':
-        # Simulate AI output for development/testing without using real API
         circular = (
             f"Subject: {subject}\n"
             f"This is a simulated circular for {audience} about '{agenda}'. "
             f"Details: {additional_info}.\n"
             f"* Venue: {venue}\n"
-            f"* Date: {event_datetime.split(',')[0] if ',' in event_datetime else event_datetime}\n"
-            f"* Time: {event_datetime.split(',')[-1].strip() if ',' in event_datetime else ''}\n"
+            f"* Date: {event_datetime.split(',')[0]}\n"
+            f"* Time: {event_datetime.split(',')[-1].strip()}\n"
         )
     else:
         model    = genai.GenerativeModel('gemini-1.5-pro-latest')
         response = model.generate_content(prompt)
         circular = re.sub(r'\*\*(.*?)\*\*', r'\1', response.text)
 
+    # --- 5.4 Generate unique Circular ID ---
+    circular_id = uuid.uuid4().hex[:8].upper()
 
-# --- 4.1.1 Generate unique Circular ID ---
-    circular_id = uuid.uuid4().hex[:8].upper()  # e.g. 'A1B2C3D4'
-
-    # --- 4.4 Prepare template context ---
+    # --- 5.5 Build template context ---
     context = {
-        'subject':         subject,
-        'audience':        audience,
-        'urgency':         urgency,
-        'agenda':          agenda,
-        'additional_info': additional_info,
-        'venue':           venue,
-        'event_datetime':  event_datetime,
-        'department':      department,
-        'hod_name':        hod_name,
-        'circular':        circular,
-        'date':            date,
-        'recipient_email': recipient_email,
-        'is_pdf':          False,
+        'subject':                subject,
+        'audience':               audience,
+        'urgency':                urgency,
+        'agenda':                 agenda,
+        'additional_info':        additional_info,
+        'venue':                  venue,
+        'event_datetime':         event_datetime,
+        'department':             department,
+        'dept_full':              dept_full,
+        'hod_name':               hod_name,
+        'hod_signature_url':      hod_signature_url,
+        'director_signature_url': DIRECTOR_SIG_URL,
+        'principal_signature_url':PRINCIPAL_SIG_URL,
+        'circular':               circular,
+        'date':                   date,
+        'circular_id':            circular_id,
+        'recipient_email':        recipient_email,
+        'is_pdf':                 False,
     }
 
-    # --- 4.5 Render HTML for PDF (same template) ---
-    html_string = render_to_string('generator/result.html', {**context, 'is_pdf': True})
-    base_url     = request.build_absolute_uri('/')  # for static file resolution
-    pdf_bytes    = HTML(string=html_string, base_url=base_url).write_pdf()
+    # --- 5.6 Render PDF bytes ---
+    html_string = render_to_string(
+        'generator/result.html', {**context, 'is_pdf': True}
+    )
+    base_url  = request.build_absolute_uri('/')
+    pdf_bytes = HTML(string=html_string, base_url=base_url).write_pdf()
 
-    # --- 4.6 Save PDF to disk ---
+    # --- 5.7 Save PDF to disk ---
     pdf_dir  = os.path.join(settings.BASE_DIR, 'generated_pdfs')
     os.makedirs(pdf_dir, exist_ok=True)
     pdf_name = f"circular_{subject.replace(' ', '_')}.pdf"
     pdf_path = os.path.join(pdf_dir, pdf_name)
-
     with open(pdf_path, 'wb') as f:
         f.write(pdf_bytes)
 
-    # --- 4.7 Return result page ---
+    # --- 5.8 Return result page ---
     context['pdf_filename'] = pdf_name
     return render(request, 'generator/result.html', context)
 
 
 @login_required
 def send_email(request):
-    """
-    Attaches the generated PDF and emails it to the specified recipients.
-    """
     if request.method != 'POST':
         return HttpResponse("Invalid request method", status=400)
 
-    pdf_filename   = request.POST['pdf_filename']
-    raw            = request.POST['recipient_email']
-    recipients     = [e.strip() for e in raw.split(',') if e.strip()]
-    subject        = request.POST['subject']
-    pdf_path       = os.path.join(settings.BASE_DIR, 'generated_pdfs', pdf_filename)
+    pdf_filename = request.POST['pdf_filename']
+    raw          = request.POST['recipient_email']
+    recipients   = [e.strip() for e in raw.split(',') if e.strip()]
+    subject      = request.POST['subject']
+    pdf_path     = os.path.join(settings.BASE_DIR, 'generated_pdfs', pdf_filename)
 
     if not os.path.exists(pdf_path):
         return HttpResponse("PDF not found.", status=404)
@@ -200,8 +219,5 @@ def send_email(request):
     )
     email.attach_file(pdf_path)
 
-    try:
-        email.send()
-        return render(request, 'generator/email_status.html', {'status': 'success'})
-    except Exception:
-        return render(request, 'generator/email_status.html', {'status': 'failed'})
+    status = 'success' if email.send() else 'failed'
+    return render(request, 'generator/email_status.html', {'status': status})
