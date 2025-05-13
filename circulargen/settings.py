@@ -102,7 +102,6 @@ EMAIL_BACKEND      = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST         = 'smtp.gmail.com'
 EMAIL_PORT         = 587
 EMAIL_HOST_USER    = 'circular@bietdvg.edu'
-EMAIL_HOST_PASSWORD= 'nzdj iedd gjry ovet'
 EMAIL_USE_TLS      = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
@@ -118,7 +117,6 @@ genai.configure(api_key=GOOGLE_API_KEY)
 # ─────────────────────────────────────────────────────────────────────────────
 # 9. Gemini API key & configuration
 # ─────────────────────────────────────────────────────────────────────────────
-# GOOGLE_API_KEY = 'AIzaSyBstaypNftg37NdkYIz1ZN63m_u87xXisI'
 
 # configure generative AI client at startup
 genai.configure(api_key=GOOGLE_API_KEY)
