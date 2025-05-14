@@ -49,7 +49,7 @@ GITHUB_RAW_BASE = (
 )
 
 HOD_SIG_URLS = {
-    'CSE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/hod-sign.png?raw=true",
+    'CSE':   "https://github.com/adarshaadi06/circulargen/blob/main/generator/static/generator/signatures/CSE-sign.png?raw=true",
     'MECH':  "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/MECH-sign.png?raw=true",
     'CIVIL': "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/CIVIL-sign.png?raw=true",
     'EEE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/EEE-sign.png?raw=true",
