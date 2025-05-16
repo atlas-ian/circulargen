@@ -53,8 +53,8 @@ HOD_SIG_URLS = {
     'MECH':  "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/MECH-sign.png?raw=true",
     'CIVIL': "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/CIVIL-sign.png?raw=true",
     'EEE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/EEE-sign.png?raw=true",
-    'ECE':   "https://github.com/adarshaadi06/circulargen/blob/main/generator/static/generator/signatures/ECE-sign.png?raw=true",
-    'ISE':   "https://raw.githubusercontent.com/adarshaadi06/circulargen/main/generator/static/generator/signatures/ISE-sign.png?raw=true",
+    # 'ECE':   "https://github.com/adarshaadi06/circulargen/blob/main/generator/static/generator/signatures/ECE-sign.png?raw=true",
+    # 'ISE':   "https://github.com/adarshaadi06/circulargen/blob/main/generator/static/generator/signatures/ISE-sign.png?raw=true",
 }
 
 DIRECTOR_SIG_URL   = f"{GITHUB_RAW_BASE}/director-sign.png?raw=true"

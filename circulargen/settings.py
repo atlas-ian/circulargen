@@ -109,17 +109,17 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 # 9. Gemini API key & configuration
-if DEBUG:
-    GOOGLE_API_KEY = 'DEMO-API-KEY'  # Replace with a fake or dummy value
-else:
-    GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", 'REAL-KEY-HERE')  # use actual in prod
+# if DEBUG:
+#     GOOGLE_API_KEY = 'DEMO-API-KEY'  # Replace with a fake or dummy value
+# else:
+#     GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", 'REAL-KEY-HERE')  # use actual in prod
 
-genai.configure(api_key=GOOGLE_API_KEY)
+# genai.configure(api_key=GOOGLE_API_KEY)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 9. Gemini API key & configuration
 # ─────────────────────────────────────────────────────────────────────────────
-# GOOGLE_API_KEY = 'AIzaSyBstaypNftg37NdkYIz1ZN63m_u87xXisI'
+GOOGLE_API_KEY = 'AIzaSyBstaypNftg37NdkYIz1ZN63m_u87xXisI'
 
 # configure generative AI client at startup
 genai.configure(api_key=GOOGLE_API_KEY)
